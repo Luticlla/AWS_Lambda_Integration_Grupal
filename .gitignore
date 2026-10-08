@@ -7,4 +7,5 @@ build/
 *.hcl
 !.terraform.lock.hcl
 !environments/*.tfvars
-IaC/lambdas/upload/node_modules/
+node_modules/
+AWS-Lambda-Integration/

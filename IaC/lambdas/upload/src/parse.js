@@ -18,7 +18,6 @@ async function parseRequest(event, { maxBytes }) {
     throw unsupportedMediaType("Usa multipart/form-data o application/json");
   }
 
-  // Validaciones comunes a los dos formatos
   if (result.buffer.length === 0) throw badRequest("La imagen está vacía");
   if (result.buffer.length > maxBytes) throw payloadTooLarge();
   return result;
@@ -61,7 +60,6 @@ function parseMultipart(raw, contentType, maxBytes) {
     bb.on("file", (name, stream, info) => {
       const chunks = [];
       stream.on("data", (chunk) => chunks.push(chunk));
-      // busboy corta el archivo al llegar a fileSize y avisa con "limit"
       stream.on("limit", () => { tooLarge = true; });
       stream.on("end", () => {
         file = { buffer: Buffer.concat(chunks), filename: info.filename || "imagen" };

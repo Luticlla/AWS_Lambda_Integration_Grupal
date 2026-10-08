@@ -17,8 +17,11 @@ La persona envía una imagen mediante `POST /upload`. El sistema la almacena, la
 | 7 | ```crop-lambda``` | S3 ```processed/``` |
 
 ## Componentes eliminados a partir del diagrama original
-- Eliminamos ambos NAT Gateways porque es inutil al no necesitar internet y hace un sobrecosto.
+Antes de la implementacion se vio que componentes eran innecesarios del diagrama original para evitar tanto sobrecostos como inutilidad en el diseño.
+
+
 - SQS Interface Endpoint tambien se elimino por sobrecosto ya que escala por disponibilidad
 - Tambien, bucket uploads/ La regla esta mal implementada. Al no limpiarse, permanecen en el sistema indefinidamente, elevando los costos de almacenamiento sin límite, ademas no se necesita porque solo se usara por 7 dias como maximo y en la implementacion del bucket se planteaba para un mes.
+- Eliminamos ambos NAT Gateways porque es inutil al no necesitar internet y hace un sobrecosto.
 
 
