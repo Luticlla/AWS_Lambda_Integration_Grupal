@@ -25,3 +25,9 @@ variable "vpc_cidr" {
   type        = string
   default     = "10.0.0.0/16"
 }
+
+variable "bucket_force_destroy" {
+  description = "Permite que Terraform vacíe el bucket antes de eliminarlo. En prod debe ser false para no perder datos."
+  type        = bool
+  default     = false
+}
