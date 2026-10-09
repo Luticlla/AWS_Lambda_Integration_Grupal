@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export AWS_PROFILE="${AWS_PROFILE:-customprofile}"
+
 usage() {
   echo "Uso: bash scripts/tf.sh <entorno> <comando> [argumentos de Terraform]"
   echo
