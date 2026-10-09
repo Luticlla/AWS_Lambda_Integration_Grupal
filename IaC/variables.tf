@@ -43,3 +43,14 @@ variable "log_retention_days" {
   type        = number
   default     = 14
 }
+
+variable "sqs_max_concurrency" {
+  description = "Número máximo de ejecuciones simultáneas de crop-lambda controlado por el Event Source Mapping de SQS."
+  type        = number
+  default     = 5
+
+  validation {
+    condition     = var.sqs_max_concurrency >= 2 && var.sqs_max_concurrency <= 1000
+    error_message = "sqs_max_concurrency debe estar entre 2 y 1000."
+  }
+}
