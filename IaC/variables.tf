@@ -31,3 +31,15 @@ variable "bucket_force_destroy" {
   type        = bool
   default     = false
 }
+
+variable "lambda_runtime" {
+  description = "Versión de Node.js con la que corren las funciones Lambda."
+  type        = string
+  default     = "nodejs20.x"
+}
+
+variable "log_retention_days" {
+  description = "Cantidad de días que se conservan los registros de los grupos de logs."
+  type        = number
+  default     = 14
+}
