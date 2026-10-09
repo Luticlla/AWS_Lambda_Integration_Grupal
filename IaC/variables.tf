@@ -54,3 +54,9 @@ variable "sqs_max_concurrency" {
     error_message = "sqs_max_concurrency debe estar entre 2 y 1000."
   }
 }
+
+variable "aws_profile" {
+  description = "Perfil de AWS CLI utilizado para conectarse a la cuenta."
+  type        = string
+  default     = "customprofile"
+}
