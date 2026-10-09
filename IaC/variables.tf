@@ -31,3 +31,32 @@ variable "bucket_force_destroy" {
   type        = bool
   default     = false
 }
+
+variable "lambda_runtime" {
+  description = "Versión de Node.js con la que corren las funciones Lambda."
+  type        = string
+  default     = "nodejs20.x"
+}
+
+variable "log_retention_days" {
+  description = "Cantidad de días que se conservan los registros de los grupos de logs."
+  type        = number
+  default     = 14
+}
+
+variable "sqs_max_concurrency" {
+  description = "Número máximo de ejecuciones simultáneas de crop-lambda controlado por el Event Source Mapping de SQS."
+  type        = number
+  default     = 5
+
+  validation {
+    condition     = var.sqs_max_concurrency >= 2 && var.sqs_max_concurrency <= 1000
+    error_message = "sqs_max_concurrency debe estar entre 2 y 1000."
+  }
+}
+
+variable "aws_profile" {
+  description = "Perfil de AWS CLI utilizado para conectarse a la cuenta."
+  type        = string
+  default     = "customprofile"
+}
