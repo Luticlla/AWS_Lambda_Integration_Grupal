@@ -30,12 +30,12 @@ output "bucket_arn" {
 
 output "queue_url" {
   description = "URL de la cola principal que recibe las notificaciones de S3."
-  value       = aws_sqs_queue.queue.url
+  value       = aws_sqs_queue.main.url
 }
 
 output "queue_arn" {
   description = "ARN de la cola principal que recibe las notificaciones de S3."
-  value       = aws_sqs_queue.queue.arn
+  value       = aws_sqs_queue.main.arn
 }
 
 output "dlq_url" {
