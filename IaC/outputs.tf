@@ -1,3 +1,8 @@
+output "environment" {
+  description = "Entorno de despliegue de la infraestructura."
+  value       = var.environment
+}
+
 output "vpc_id" {
   description = "Identificador de la VPC privada creada para el proyecto."
   value       = aws_vpc.main.id
