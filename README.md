@@ -8,13 +8,12 @@ La persona envía una imagen mediante `POST /upload`. El sistema la almacena, la
 
 | Paso | Origen | Destino | 
 |------|--------|---------|
-| 1 | Cliente | API Gateway | 
-| 2 | API Gateway | ```upload-lambda``` | 
-| 3 | ```upload-lambda``` | S3 ```uploads/``` | 
-| 4 | S3 ```uploads/``` | SQS |
-| 5 | SQS | ```crop-lambda``` | 
-| 6 | ```crop-lambda``` | S3 ```uploads/``` |
-| 7 | ```crop-lambda``` | S3 ```processed/``` |
+| 1 | Cliente | ```upload-lambda``` (invocación directa, payload 2.0) | 
+| 2 | ```upload-lambda``` | S3 ```uploads/``` | 
+| 3 | S3 ```uploads/``` | SQS |
+| 4 | SQS | ```crop-lambda``` | 
+| 5 | ```crop-lambda``` | S3 ```uploads/``` |
+| 6 | ```crop-lambda``` | S3 ```processed/``` |
 
 Restricciones:
 
@@ -30,6 +29,7 @@ Antes de la implementacion se vio que componentes eran innecesarios del diagrama
 - SQS Interface Endpoint tambien se elimino por sobrecosto ya que escala por disponibilidad
 - Tambien, bucket uploads/ La regla esta mal implementada. Al no limpiarse, permanecen en el sistema indefinidamente, elevando los costos de almacenamiento sin límite, ademas no se necesita porque solo se usara por 7 dias como maximo y en la implementacion del bucket se planteaba para un mes.
 - Eliminamos ambos NAT Gateways porque es inutil al no necesitar internet y hace un sobrecosto.
+- API Gateway: la invocación es directa a la lambda con payload 2.0, por ahora no hace falta un punto de entrada HTTP.
 
 
 ## Componentes desplegados
@@ -55,7 +55,7 @@ Ambas funciones corren en la VPC privada y solo tienen salida por 443 hacia el p
 
 ### upload-lambda
 
-- Recibe el evento de API Gateway (payload 2.0), parsea multipart con `busboy` o JSON base64.
+- Recibe un evento payload 2.0 por invocación directa a Lambda, parsea multipart con `busboy` o JSON base64.
 - Detecta el tipo real de imagen, sanea el nombre y arma la clave `uploads/{uuid}_{nombre}.{ext}`.
 - Sube el archivo a S3 con `ServerSideEncryption: AES256` y responde `201`.
 - Código en `IaC/lambdas/upload/` (`src/handler.js`, `src/parse.js`, `src/validate.js`, `src/errors.js`).
